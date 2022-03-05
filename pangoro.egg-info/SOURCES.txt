@@ -1,0 +1,9 @@
+LICENSE.txt
+MANIFEST.in
+README.txt
+setup.py
+pangoro.egg-info/PKG-INFO
+pangoro.egg-info/SOURCES.txt
+pangoro.egg-info/dependency_links.txt
+pangoro.egg-info/requires.txt
+pangoro.egg-info/top_level.txt
