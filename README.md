@@ -29,3 +29,8 @@ pip install pangoro
 
 ### Background
 Work on pangoro started in 2022 by a group of IE University students and has been under active development since then.
+
+### Contributing to pangoro  
+All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome.
+our contact can be found on [GitHub](https://github.com/ieuTeamD/pangoro)<br />
+
