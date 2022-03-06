@@ -15,7 +15,7 @@
   * Convert to nuemerical
   * Scan and apply to all numerical or supply a list of features
 * For categorical nominal features, pangoro provides the following tools:
-  * Handle NA, Drop, replace with mode, use KNN classification for imputation, keep.
+  * Handle NA, Drop, replace with mode, use KNN classification for imputation.
   * Replace with sequence numbers based on supplied dictionary or based on alphabetical order.
   * Scan and apply to all Categorical or supply a list of features
   
