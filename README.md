@@ -17,4 +17,4 @@
   
 ### Where to get it:
 The source code is currently hosted on GitHub at: https://github.com/ieuTeamD/pangoro <br />
-Binary installers for the latest released version are available at the Python Package Index (PyPI) and on Conda.
+Binary installers for the latest released version are available at the Python Package Index https://pypi.org/project/pangoro/.
