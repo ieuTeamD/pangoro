@@ -34,5 +34,5 @@ Work on pangoro started in 2022 by a group of IE University students and has bee
 
 ### Contributing to pangoro  
 All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome.
-our contact can be found on [GitHub](https://github.com/ieuTeamD/pangoro)<br />
+Please contact us on [GitHub](https://github.com/ieuTeamD/pangoro)<br />
 
