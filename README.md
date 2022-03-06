@@ -1,4 +1,5 @@
 ### Project description 
+<div class="day dark-scheme">Day (changes in dark scheme)</div> <br>
 ![](https://svgshare.com/i/euv.svg)
 
 
