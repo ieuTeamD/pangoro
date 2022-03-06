@@ -23,9 +23,6 @@ The source code is currently hosted on GitHub at: https://github.com/ieuTeamD/pa
 Binary installers for the latest released version are available at the Python Package Index (PyPI) and on Conda.
 
 
-)
-
-
 ### Pangoro: powerful Python data cleaning toolkit
 ## What is it?
 **Pangoro** is a Python package that provides fast and flexible methods for cleaning numerical and categorical features in a dataframe. It aims to be a fundamental tool for doing data wrangling in Python.
