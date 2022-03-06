@@ -1,4 +1,4 @@
-python-package-example
+# python-package-example
 
 This is a minimal python package, for use alongside the lesson: https://github.com/ieuTeamD
 
