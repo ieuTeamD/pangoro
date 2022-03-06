@@ -26,3 +26,6 @@ Binary installers for the latest released version are available at the Python Pa
 ~~~
 pip install pangoro
 ~~~
+
+### Background
+Work on pangoro started in 2022 by a group of IE University students and has been under active development since then.
