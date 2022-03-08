@@ -40,7 +40,7 @@ class PangoroDataFrame(pd.DataFrame):
         return txt
 
 
-    def plot_target_correlation(self, target_col='', save_as_png=False, color_map='BrBG'):
+    def plot_target_correlations(self, target_col='', save_as_png=False, color_map='BrBG'):
         '''
         Plot funtion to quickly show the correlation between the Target variable and the other variables in the PangoroDataFrame. Results can be save to png for permanent storage with specific name
         ----------
@@ -68,7 +68,7 @@ class PangoroDataFrame(pd.DataFrame):
 
         return
     
-    def plot_all_correlation(self, save_as_png=False, color_map='BrBG'):
+    def plot_all_correlations(self, save_as_png=False, color_map='BrBG'):
         
         '''
         Plot funtion to quickly show the correlation between all variablesin the PangoroDataFrame. Results can be save to png for permanent storage with specific name
