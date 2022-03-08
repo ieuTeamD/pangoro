@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pangoro',
-    version='0.29',
+    version='0.30',
     packages=find_packages(exclude=['tests*']),
     license='MIT',
     description='pangoro python package',
