@@ -41,18 +41,49 @@ class PangoroDataFrame(pd.DataFrame):
 
 
     def plot_target_correlation(self, target_col='', save_as_png=False, color_map='BrBG'):
+        '''
+        Plot funtion to quickly show the correlation between the Target variable and the other variables in the PangoroDataFrame. Results can be save to png for permanent storage with specific name
+        ----------
+        target_col:  str, (Optional), Default = ''
+            name of target column/variable
+        save_as_png: bool, (Optional), Default = False
+            specifies whether to save the output plot to png file or not
+        color_map:  str, (Optional), Default = 'BrBG'
+            color map based on Matplotlib defined color maps including sequential, diverging, cyclic, qualitative and misc. color maps (e.g. inferno and Purples) 
+            Reference: https://matplotlib.org/stable/tutorials/colors/colormaps.html
+        Returns
+        -------
+        Correlation Plot image
+        '''
+
         plt.figure(figsize=(8, 12))
         heatmap = sns.heatmap(self.corr()[[target_col]].sort_values(by=target_col, ascending=False), vmin=-1, vmax=1, annot=True, cmap=color_map)
         heatmap.set_title('Features Correlating with '+target_col, fontdict={'fontsize':18}, pad=16);
-    
+        # save heatmap as .png file
+        # dpi - sets the resolution of the saved image in dots/inches
+        # bbox_inches - when set to 'tight' - does not allow the labels to be cropped
+
+        if(save_as_png==True):
+            plt.savefig('pangoro_heatmap_target_'+target_col+'.png', dpi=300, bbox_inches='tight')
+
         return
     
     def plot_all_correlation(self, save_as_png=False, color_map='BrBG'):
-        # Increase the size of the heatmap.
-        plt.figure(figsize=(16, 6))# TODO: Make dynamically change per df col num
-        # Store heatmap object in a variable to easily access it when you want to include more features (such as title).
-        # Set the range of values to be displayed on the colormap from -1 to 1, and set the annotation to True to display the correlation values on the heatmap.
-    
+        
+        '''
+        Plot funtion to quickly show the correlation between all variablesin the PangoroDataFrame. Results can be save to png for permanent storage with specific name
+        ----------
+        save_as_png: bool, (Optional), Default = False
+            specifies whether to save the output plot to png file or not
+        color_map:  str, (Optional), Default = 'BrBG'
+            color map based on Matplotlib defined color maps including sequential, diverging, cyclic, qualitative and misc. color maps (e.g. inferno and Purples) 
+            Reference: https://matplotlib.org/stable/tutorials/colors/colormaps.html
+        Returns
+        -------
+        Correlation Plot image
+        '''
+        
+        plt.figure(figsize=(16, 6))
     
         heatmap = sns.heatmap(self.corr(), vmin=-1, vmax=1, annot=True, cmap=color_map)
     
@@ -63,7 +94,7 @@ class PangoroDataFrame(pd.DataFrame):
         # bbox_inches - when set to 'tight' - does not allow the labels to be cropped
     
         if(save_as_png==True):
-            plt.savefig('heatmap.png', dpi=300, bbox_inches='tight')
+            plt.savefig('pangoro_heatmap_all'+'.png', dpi=300, bbox_inches='tight')
     
         return
     
