@@ -42,7 +42,7 @@ class PangoroDataFrame(pd.DataFrame):
 
     def plot_target_correlations(self, target_col='', save_as_png=False, color_map='BrBG'):
         '''
-        Plot funtion to quickly show the correlation between the Target variable and the other variables in the PangoroDataFrame. Results can be save to png for permanent storage with specific name
+        Plot funtion to quickly show the correlations between the Target variable and the other variables in the PangoroDataFrame. Results can be save to png for permanent storage with specific name
         ----------
         target_col:  str, (Optional), Default = ''
             name of target column/variable
@@ -53,7 +53,7 @@ class PangoroDataFrame(pd.DataFrame):
             Reference: https://matplotlib.org/stable/tutorials/colors/colormaps.html
         Returns
         -------
-        Correlation Plot image
+        Target Column/Feature Correlations Plot image
         '''
 
         plt.figure(figsize=(8, 12))
@@ -64,7 +64,7 @@ class PangoroDataFrame(pd.DataFrame):
         # bbox_inches - when set to 'tight' - does not allow the labels to be cropped
 
         if(save_as_png==True):
-            plt.savefig('pangoro_heatmap_target_'+target_col+'.png', dpi=300, bbox_inches='tight')
+            plt.savefig('pangoro_cor_heatmap_target_'+target_col+'.png', dpi=300, bbox_inches='tight')
 
         return
     
@@ -80,21 +80,21 @@ class PangoroDataFrame(pd.DataFrame):
             Reference: https://matplotlib.org/stable/tutorials/colors/colormaps.html
         Returns
         -------
-        Correlation Plot image
+        All Columns/Features Correlations Plot image
         '''
         
         plt.figure(figsize=(16, 6))
     
         heatmap = sns.heatmap(self.corr(), vmin=-1, vmax=1, annot=True, cmap=color_map)
     
-        heatmap.set_title('Correlation Heatmap', fontdict={'fontsize':12}, pad=12);
+        heatmap.set_title('All Correlations Heatmap', fontdict={'fontsize':12}, pad=12);
         
         # save heatmap as .png file
         # dpi - sets the resolution of the saved image in dots/inches
         # bbox_inches - when set to 'tight' - does not allow the labels to be cropped
     
         if(save_as_png==True):
-            plt.savefig('pangoro_heatmap_all'+'.png', dpi=300, bbox_inches='tight')
+            plt.savefig('pangoro_cor_heatmap_all'+'.png', dpi=300, bbox_inches='tight')
     
         return
     
