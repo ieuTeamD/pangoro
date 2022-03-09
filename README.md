@@ -69,7 +69,11 @@ In addition, we can quickly plot correlations between features by calling: **_pd
 
 #### 4. Getting Help
 
-To learn more about we can **_help(PangoroDataFrame)_** to get detailed information about the package and each function included.
+To learn more about we can issue the following command:
+
+    >>> help(PangoroDataFrame)
+
+As a result we get detailed information about the package and each function included.
 
 ### License
 [MIT](https://pypi.org/project/pangoro/)
