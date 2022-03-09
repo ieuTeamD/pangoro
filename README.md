@@ -26,6 +26,43 @@ Binary installers for the latest released version are available at the Python Pa
 ~~~
 pip install pangoro
 ~~~
+### Usage
+
+#### 1. Import
+
+Import what you need from the pangoro package. The choices are:
+ ``PangoroDataFrame``, a class for cleaning numerical and categorical features in a dataframe in addition to plotting features correlations.
+
+For this demonstration, we will import:
+
+    >>> from pangoro.preprocessing import PangoroDataFrame
+
+For these examples, we'll also use pandas to :
+
+    >>> import pandas as pd
+
+#### 2. Load some Data
+
+Typicall data will is read from a tabular formatted file, but for illustration we'll create a simple dataframe from a Python dict:
+
+    >>> sample_data = pd.DataFrame({'pet':      ['cat', 'dog', 'dog', pd.NA, 'cat', 'dog', 'cat', 'fish'],
+                           'color': ['white', 'brown', 'black', 'gold', pd.NA,'black', 'white', 'silver'],
+                           'weight':   [50.5, 22.5, 4, pd.NA , 12, 39, 16, pd.NA]})
+    >>> sample_data['weight'] = pd.to_numeric(sample_data['weight'])
+    >>> sample_data.dtypes
+
+                           
+#### 3. Create Instance and Apply Transformation
+
+3.1 We will start by creating an instance of PangoroDataFrame using the created sample_data DataFrame above:
+
+    >>> pdf = PangoroDataFrame(sample_data)
+
+3.2 Then, we will automate cleaning of numerical features in PangoroDataFrame by replacing NAs with mean and without performing any scaling:
+
+    >>> pdf.numerical_transformation(col = ['weight'], na_treat = 'mean', out_treat = True, out_upper = 0.8,
+                             out_lower = 0.2, scaling='no', knn_neighbors = 0)
+
 ### License
 [MIT](https://pypi.org/project/pangoro/)
 
