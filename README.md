@@ -24,7 +24,7 @@ The source code is currently hosted on [GitHub](https://github.com/ieuTeamD/pang
 Binary installers for the latest released version are available at the Python Package Index [PyPi](https://pypi.org/project/pangoro/)<br />
 
 ~~~
-pip install pangoro
+pip install --upgrade pangoro
 ~~~
 ### Usage
 
