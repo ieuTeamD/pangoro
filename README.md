@@ -67,6 +67,14 @@ Similarly, as we continue with this example and using **pdf** as an instance **P
 
 In addition, we can quickly plot correlations between features by calling: **_pdf.plot_all_correlations_**
 
+---
+**NOTE**
+PangoroDataFrame object has to be re-assigned to itself in order to store changes inplace after transforming nominal categories, which will result in adding new features to the original PangoroDataFrame, for example:
+
+    >>> pdf =pdf.categorical_nominal_transformation(col=['weight'],transform=True )
+
+---
+
 #### 4. Getting Help
 
 To learn more about we can issue the following command:
