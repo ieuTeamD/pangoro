@@ -19,15 +19,28 @@ class PangoroDataFrame(pd.DataFrame):
     #Initializing the inherited pd.DataFrame
     def __init__(self, *args, **kwargs):
         super(PangoroDataFrame,  self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+        
+        '''        
+        if len(args) == 1 and isinstance(args[0], PangoroDataFrame):
+            args[0]._copy_attrs(self)
+    def _copy_attrs(self, df):
+        for attr in self._attributes_.split(","):
+            df.__dict__[attr] = getattr(self, attr, None)
+            '''
 
     @property
     def _constructor(self):
+        '''
+        Creates a self object that is basically a pandas.Dataframe.
+        self is a dataframe-like object inherited from pandas.DataFrame
+        self behaves like a dataframe + new custom attributes and methods.
+        '''
         return PangoroDataFrame
-        
     
     def echo(txt):
         '''
-        takes a text string and returns it as is 
+        takes a text input string and returns it as is 
         Parameters
         ----------
         txt: str
@@ -162,7 +175,7 @@ class PangoroDataFrame(pd.DataFrame):
         
         # The following section will test the paramters
         if str(type(self)) != "<class 'pangoro.preprocessing.PangoroDataFrame'>":
-            raise TypeError('Error: df is not a valid pandas datafram')
+            raise TypeError('Error: df is not a valid PangoroDataFrame')
         if str(type(col)) != "<class 'list'>":
             raise TypeError('Error: paramter col must be a list')
         if str(type(na_treat)) != "<class 'str'>":
@@ -197,7 +210,7 @@ class PangoroDataFrame(pd.DataFrame):
     # The following section will treat the na values of the columns
         
         if na_treat == 'drop':                    # If na_treat = 'drop', all NaN values for the specified columns will be droped
-            self = self.dropna(subset = col)
+            self = self.dropna(subset = col, inplace=True)
             
         elif na_treat == 'mean':                  # If na_treat = 'mean', all NaN values for the specified columns will be replaced with the column average
             for c in col:
@@ -206,8 +219,8 @@ class PangoroDataFrame(pd.DataFrame):
                 
         elif na_treat == 'mode':                  # If na_treat = 'mode', all NaN values for the specified columns will be replaced with the column mode
             for c in col:
-                mode = self[c].mode()
-                self.loc[:, c].fillna(mode, inplace=True)
+                modei = self[c].mode()[0]
+                self.loc[:, c].fillna(modei, inplace=True)
                 
         elif na_treat == 'min':                   # If na_treat = 'min', all NaN values for the specified columns will be replaced with the column minimum
             for c in col:
@@ -322,7 +335,7 @@ class PangoroDataFrame(pd.DataFrame):
         '''
         # The following section will test the paramters
         if str(type(self)) != "<class 'pangoro.preprocessing.PangoroDataFrame'>":
-            raise TypeError('Error: df is not a valid pandas datafram')
+            raise TypeError('Error: df is not a valid PangoroDataFrame')
         if str(type(col)) != "<class 'list'>":
             raise TypeError('Error: paramter col must be a list')
         if str(type(na_treat)) != "<class 'str'>":
@@ -352,12 +365,12 @@ class PangoroDataFrame(pd.DataFrame):
         # The following section will treat the na values of the columns
         knn = False
         if na_treat == 'drop':                    # If na_treat = 'drop', all NaN values for the specified columns will be droped
-            self = self.dropna(subset = col)
+            self = self.dropna(subset = col, inplace=True)
                 
         elif na_treat == 'mode':                  # If na_treat = 'mode', all NaN values for the specified columns will be replaced with the column mode
             for c in col:
-                mode = self[c].mode()
-                self.loc[:, c].fillna(mode[0], inplace=True)
+                modei = self[c].mode()[0]
+                self.loc[:, c].fillna(modei, inplace=True)
                 
         elif na_treat == 'fill':                  # If na_treat = 'fill', all NaN values for the specified columns will be replaced with the na_fill value (default is 'missing')
             for c in col:
@@ -381,7 +394,7 @@ class PangoroDataFrame(pd.DataFrame):
                     ohe = OneHotEncoder(sparse=False, drop='first')
                     ohe.fit(df_in[[c]])
                     self = pd.DataFrame(ohe.transform(df_in[[c]]),
-                    columns = ohe.get_feature_names([c]))
+                    columns = ohe.get_feature_names_out([c]))
                     self.set_index(df_in.index, inplace=True)
                     self = pd.concat([df_in, self], axis=1).drop([c], axis=1)
                     dropped_col.append(c)
@@ -389,16 +402,14 @@ class PangoroDataFrame(pd.DataFrame):
                     for i in range(start_from,(len(self[c].unique())*increment_by) + start_from, increment_by):
                         self.loc[self[c] == self[c].unique()[int((i-start_from)/increment_by)], c] = i
                 col = list(set(col)-set(dropped_col))
-                        
+        
         if knn: # If na_treat = 'knn_fill', all NaN values for the specified columns will be imputed using knn
             imputer = KNNImputer(n_neighbors=knn_neighbors, copy = True)
             for c in col:
                 self[c] = np.round_(imputer.fit_transform(self[[c]]))
     
-    
-    
+
         #---------------------------------------------------------------------------------------------------
-        
         # Return the final dataframe
         return self
     #*********************************************
@@ -453,7 +464,7 @@ class PangoroDataFrame(pd.DataFrame):
         
         # The following section will test the paramters
         if str(type(self)) != "<class 'pangoro.preprocessing.PangoroDataFrame'>":
-            raise TypeError('Error: df is not a valid pandas datafram')
+            raise TypeError('Error: df is not a valid PangoroDataFrame')
         if str(type(col)) != "<class 'list'>":
             raise TypeError('Error: paramter col must be a list')
         if str(type(na_treat)) != "<class 'str'>":
@@ -482,12 +493,12 @@ class PangoroDataFrame(pd.DataFrame):
         # The following section will treat the na values of the columns
         knn = False
         if na_treat == 'drop':                    # If na_treat = 'drop', all NaN values for the specified columns will be droped
-            self = self.dropna(subset = col)
+            self = self.dropna(subset = col, inplace=True)
                 
         elif na_treat == 'mode':                  # If na_treat = 'mode', all NaN values for the specified columns will be replaced with the column mode
             for c in col:
-                mode = self[c].mode()
-                self.loc[:, c].fillna(mode[0], inplace=True)
+                modei = self[c].mode()[0]
+                self.loc[:, c].fillna(modei, inplace=True)
                 
         elif na_treat == 'fill':                  # If na_treat = 'fill', all NaN values for the specified columns will be replaced with the na_fill value (default is 'missing')
             for c in col:
