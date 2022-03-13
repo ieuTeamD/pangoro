@@ -63,13 +63,13 @@ Typicall data will is read from a tabular formatted file, but for illustration w
     >>> pdf.numerical_transformation(col = ['weight'], na_treat = 'mean', out_treat = True, out_upper = 0.8,
                              out_lower = 0.2, scaling='no', knn_neighbors = 0)
 
-Similarly, as we continue with this example and using **pdf** as an instance **PangoroDataFrame** we can apply the other functions to clean and preprocess categorical ordinal by calling **_pdf.categorical_ordinal_transformation_** or categorical nominal by calling **_pdf.categorical_ordinal_transformation_** 
+Similarly, as we continue with this example and using **pdf** as an instance **PangoroDataFrame** we can apply the other functions to clean and preprocess categorical ordinal by calling **_pdf.categorical_ordinal_transformation_** or categorical nominal by calling **_pdf.categorical_nominal_transformation_** 
 
 In addition, we can quickly plot correlations between features by calling: **_pdf.plot_all_correlations_**
 
 ---
 **NOTE**
-PangoroDataFrame object has to be re-assigned to itself in order to store changes inplace after transforming nominal categories, which will result in adding new features to the original PangoroDataFrame, for example:
+PangoroDataFrame object has to be re-assigned to itself in order to store changes inplace after transforming nominal categories by calling _categorical_nominal_transformation_, which will result in adding new features to the original PangoroDataFrame, for example:
 
     >>> pdf =pdf.categorical_nominal_transformation(col=['weight'],transform=True )
 
