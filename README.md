@@ -77,7 +77,9 @@ As a result we get detailed information about the package and each function incl
 
 #### 5. Unit Test
 pangoro package is equipped with test module that contains TestDataFrame class to perform all unit tests required to validate output of the PangoroDataFrame functions. Tests can be called by the follwoing command from the main pangoro package folder:
+
     >>> python -m tests.test
+
 As a result, all test functions will be called and performed and the output will be the number of performed tests along with results of the tests (i.e. OK or FAILED(errors))
 
 ### License
