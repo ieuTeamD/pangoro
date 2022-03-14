@@ -1,9 +1,11 @@
 import pandas as pd
 import numpy as np
+from sklearn.impute import KNNImputer
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.impute import KNNImputer
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 #import warnings
@@ -48,7 +50,7 @@ class PangoroDataFrame(pd.DataFrame):
         Returns
         -------
         str
-        text input is returned back to user
+            text input is returned back to user
         '''
         return txt
 
@@ -66,7 +68,8 @@ class PangoroDataFrame(pd.DataFrame):
             Reference: https://matplotlib.org/stable/tutorials/colors/colormaps.html
         Returns
         -------
-        Target Column/Feature Correlations Plot image
+        Correlation Heatmap Plot
+            Correlation Plot of PangoroDataFrame Target Column/Feature with the other Columns/Features
         '''
 
         plt.figure(figsize=(8, 12))
@@ -93,7 +96,8 @@ class PangoroDataFrame(pd.DataFrame):
             Reference: https://matplotlib.org/stable/tutorials/colors/colormaps.html
         Returns
         -------
-        All Columns/Features Correlations Plot image
+        Correlation Heatmap Plot
+            Correlation Plot of all PangoroDataFrame Columns/Features 
         '''
         
         plt.figure(figsize=(16, 6))
@@ -112,7 +116,7 @@ class PangoroDataFrame(pd.DataFrame):
         return
     
     def numerical_transformation(self, col = [], na_treat = 'keep', na_fill = 0, knn_neighbors = 5, out_treat = False, 
-                                out_upper = 0.75, out_lower = 0.25, scaling='no'):
+                            out_upper = 0.75, out_lower = 0.25, scaling='no'):
         
         '''
         This function will automate cleaning of numerical features in Panda dataframe
@@ -134,7 +138,7 @@ class PangoroDataFrame(pd.DataFrame):
         Parameters
         ----------
         col: list, (Optional), Default = [ ]:
-            List of numerical columns name withing the supplied datafram. If no value provided, the method will apply on all columns with numeric datatypes.
+            List of numerical columns name withing the PangoroDataFrame. If no value provided, the method will apply on all columns with numeric datatypes.
         
         na_treat: str, (Optional), Default = 'keep'
             Null values treatment method: 
@@ -169,13 +173,13 @@ class PangoroDataFrame(pd.DataFrame):
                 3. 'no': not to perform scaling
         Returns
         -------
-            DataFrame
-                Dataframe with cleaned numerical features
+        PangoroDataFrame
+            PangoroDataFrame with cleaned and transformed numerical features
         '''
         
         # The following section will test the paramters
         if str(type(self)) != "<class 'pangoro.preprocessing.PangoroDataFrame'>":
-            raise TypeError('Error: df is not a valid PangoroDataFrame')
+            raise TypeError('Error: dataframe is not a valid PangoroDataFrame')
         if str(type(col)) != "<class 'list'>":
             raise TypeError('Error: paramter col must be a list')
         if str(type(na_treat)) != "<class 'str'>":
@@ -308,7 +312,7 @@ class PangoroDataFrame(pd.DataFrame):
         ----------
         
         col: list, (Optional), Default = [ ]:
-            List of categorical columns name withing the supplied datafram. If no value provided, the method will apply on all columns with categorical or object datatypes.
+            List of categorical columns name withing the PangoroDataFrame. If no value provided, the method will apply on all columns with categorical or object datatypes.
         
         na_treat: str, (Optional), Default = 'keep'
             Null values treatment method: 1. 'drop': to drop all nulls 2. 'mode': to replace nulls with the mode 3. 'fill': to replace nulls with a specific text 4. 'knn_fill': to impute nulls using knn algorithm 5. 'keep': not to treat nulls.
@@ -330,12 +334,12 @@ class PangoroDataFrame(pd.DataFrame):
         
         Returns
         -------
-            DataFrame
-                Dataframe with cleaned categorical nominal features
+        PangoroDataFrame
+            PangoroDataFrame with cleaned and transformed categorical nominal features
         '''
         # The following section will test the paramters
         if str(type(self)) != "<class 'pangoro.preprocessing.PangoroDataFrame'>":
-            raise TypeError('Error: df is not a valid PangoroDataFrame')
+            raise TypeError('Error: dataframe is not a valid PangoroDataFrame')
         if str(type(col)) != "<class 'list'>":
             raise TypeError('Error: paramter col must be a list')
         if str(type(na_treat)) != "<class 'str'>":
@@ -432,7 +436,7 @@ class PangoroDataFrame(pd.DataFrame):
         ----------
         
         col: list, (Optional), Default = [ ]:
-            List of categorical columns name withing the supplied datafram. If no value provided, the method will apply on all columns with categorical or object datatypes.
+            List of categorical columns name withing the PangoroDataFrame. If no value provided, the method will apply on all columns with categorical or object datatypes.
         
         na_treat: str, (Optional), Default = 'keep'
             Null values treatment method: 1. 'drop': to drop all nulls 2. 'mode': to replace nulls with the mode 3. 'fill': to replace nulls with a specific text 4. 'knn_fill': to impute nulls using knn algorithm 5. 'keep': not to treat nulls.
@@ -457,14 +461,14 @@ class PangoroDataFrame(pd.DataFrame):
         
         Returns
         -------
-            DataFrame
-                Dataframe with cleaned categorical ordinal features
+        PangoroDataFrame
+            PangorDataframe with cleaned and transformed categorical ordinal features
                 
         '''
         
         # The following section will test the paramters
         if str(type(self)) != "<class 'pangoro.preprocessing.PangoroDataFrame'>":
-            raise TypeError('Error: df is not a valid PangoroDataFrame')
+            raise TypeError('Error: dataframe is not a valid PangoroDataFrame')
         if str(type(col)) != "<class 'list'>":
             raise TypeError('Error: paramter col must be a list')
         if str(type(na_treat)) != "<class 'str'>":
@@ -533,3 +537,134 @@ class PangoroDataFrame(pd.DataFrame):
         
         # Return the final dataframe
         return self
+    
+    
+    def split_transform(self, col = [], train_size = 0.75, random_state = None, shuffle = True, na_treat = 'keep', 
+                    na_fill = 'missing', transform_type = 'mean', target_col = None):
+    
+    # The following section will test the paramters
+        '''
+        This function will split and transform PangoroDataframe by using the target variable
+        This fuction can perform the following 3 treatments:
+        1. Treating null values using one of the following methods:
+            a) Dropping null
+            b) Replace them with mode
+            c) Replace them with a specified string
+        2. Split the data into train and test sets
+        3. Transform the catagorical features into number using the traget variable from the training set.
+        
+        Parameters
+        ----------
+        
+        col: list, (Optional), Default = [ ]:
+            List of categorical columns name withing the PangoroDataFrame. If no value provided, the method will apply on all columns with categorical or object datatypes.
+        
+        train_size: float, (Optional), Default = 0.75:
+            This parameter represents the proportion of the dataset to include in the train split and should be between 0.0 and 1.0. The test size will be automatically set to 1 - train_size. If int, represents the absolute number of train samples in this case the test size will be automatically set to number of records - train_size.
+        
+        random_state: int (Optional), Default = None:
+            Controls the shuffling applied to the data before applying the split. Pass an int for reproducible output across multiple function calls.
+        
+        shuffle: boolean (Optional), Default = True:
+            Whether or not to shuffle the data before splitting. If shuffle=False then stratify must be None.
+        
+        na_treat: str, (Optional), Default = 'keep'
+            Null values treatment method: 1. 'drop': to drop all nulls 2. 'mode': to replace nulls with the mode 3. 'fill': to replace nulls with a specific text 4. 'keep': not to treat nulls.
+        
+        na_fill: float, (Optional), Default = 'missing'
+            If na_treat = 'fill', this parameter will be used to replace the null.
+        
+        transform_type: str, (Optional), Default = 'mean'
+            This to indicate the transformation type. The method will transform the catigorical variable based on the target variable for each category. 1. 'mean': transform using target's mean 2. 'min': transform using target's min 3. 'max': transform using target's max
+        
+        target_col: str, (Optional), Default = 'None'
+            This parameter is the target variable that will be used for transformation. When target_col = None, there will be no transformation.
+        
+        Returns
+        -------
+        PangoroDataFrame, PangoroDataFrame
+            Two PangoroDataframes with cleaned and transformed categorical ordinal features:
+                PangoroDataFrame(df_train), PangoroDataFrame(df_test)
+                                                                     
+        '''
+        if str(type(self)) != "<class 'pangoro.preprocessing.PangoroDataFrame'>":
+            raise TypeError('Error: df is not a valid PangoroDataFrame')
+        if str(type(col)) != "<class 'list'>":
+            raise TypeError('Error: paramter col must be a list')
+        if not(str(type(train_size)) == "<class 'float'>" or str(type(train_size)) == "<class 'int'>"):
+            raise TypeError('Error: paramter train_size must be a number between 0 & 1')
+        if not(str(type(random_state)) == "<class 'int'>" or random_state == None):
+            raise TypeError('Error: paramter random_state must be an integer number')
+        if str(type(shuffle)) != "<class 'bool'>":
+            raise TypeError('Error: paramter shuffle must be a boolean')
+        if str(type(na_treat)) != "<class 'str'>":
+            raise TypeError('Error: paramter na_treat must be a string')
+        if str(type(na_fill)) != "<class 'str'>":
+            raise TypeError('Error: paramter na_fill must be a string')
+        if str(type(transform_type)) != "<class 'str'>":
+            raise TypeError('Error: paramter transform_type must be a string')
+        if not (str(type(target_col)) != "<class 'str'>" or target_col != None):
+            raise TypeError('Error: paramter target_col must be a string')
+    
+        
+        # The following section will scan the data types of the columns looking for catagorical columns.
+        if col == []:
+            for c in self.columns:
+                if self[c].dtype.name == 'object' or self[c].dtype.name == 'category':
+                    col.append(c)
+    
+        #---------------------------------------------------------------------------------------------------
+        
+        # The following section will treat the na values of the columns
+        
+        if na_treat == 'drop':                    # If na_treat = 'drop', all NaN values for the specified columns will be droped
+            self = self.dropna(subset = col)
+                
+        elif na_treat == 'mode':                  # If na_treat = 'mode', all NaN values for the specified columns will be replaced with the column mode
+            for c in col:
+                mode = self[c].mode()
+                self.loc[:, c].fillna(mode[0], inplace=True)
+                
+        elif na_treat == 'fill':                  # If na_treat = 'fill', all NaN values for the specified columns will be replaced with the na_fill value (default is 'missing')
+            for c in col:
+                self.loc[:, c].fillna(na_fill, inplace=True)
+                
+        elif na_treat == 'keep':                  # If na_treat = 'keep', all NaN values for the specified columns will be kept with no change
+            pass
+            
+        else:
+            raise TypeError('Error: The na_treat parameter ' + na_treat + ' is not a valid')
+        #---------------------------------------------------------------------------------------------------
+        
+        # The folllowing section will split the data into train and test
+        df_train, df_test = train_test_split(self, train_size = train_size, random_state = random_state, 
+                                             shuffle = shuffle)
+        
+        #---------------------------------------------------------------------------------------------------
+        for c in col:           
+            if target_col != None:
+                if transform_type == 'mean':
+                    df_train_temp = df_train.groupby(c)[
+                        [target_col]].mean().sort_values(by=[target_col], ascending=False).rename(
+                        columns={target_col: 'result_' + target_col})
+                            
+                elif transform_type == 'max':
+                    df_train_temp = df_train.groupby(c)[
+                        [target_col]].max().sort_values(by=[target_col], ascending=False).rename(
+                        columns={target_col: 'result_' + target_col})
+    
+                elif transform_type == 'min':
+                    df_train_temp = df_train.groupby(c)[
+                        [target_col]].min().rename(columns={target_col: 'result_' + target_col})
+                
+                else:
+                    raise TypeError('Error: The transform_type parameter ' + transform_type + ' is not a valid')
+                
+                df_train_temp_dict = df_train_temp.to_dict()['result_' + target_col]
+                df_train[c] = df_train[c].replace(df_train_temp_dict)
+                df_test[c] = df_test[c].replace(df_train_temp_dict)
+    
+        #---------------------------------------------------------------------------------------------------
+        
+        # Return the final dataframe
+        return PangoroDataFrame(df_train), PangoroDataFrame(df_test)
